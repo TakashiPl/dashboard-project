@@ -1,5 +1,6 @@
 import { click } from '@testing-library/user-event/dist/click';
 import React, { useState, useEffect } from 'react';
+
 interface HeaderProps {
     title: string;
     subtitle?: string;
@@ -8,6 +9,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title, subtitle = "Default subtitle", version = 1.0  }: HeaderProps) => {
     const [clickCount, setClickCount] = useState(0);
+    const body = document.querySelector('body')!;
     const handleClick = () => {
         setClickCount(clickCount + 1);
         alert(`Header clicked ${clickCount + 1} times`);
@@ -16,7 +18,15 @@ const Header: React.FC<HeaderProps> = ({ title, subtitle = "Default subtitle", v
     const [theme, setTheme] = useState<theme>('light');
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
+        if (theme === 'light') {
+            body.classList.remove('light');
+            body.setAttribute('class', 'dark');
+        } else {
+            body.classList.remove('dark');
+            body.setAttribute('class', 'light');
+        }
     }
+    
     
     return (
     <header style={{
